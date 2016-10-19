@@ -12,12 +12,10 @@ var port = process.env.PORT || 8080;
 server.use(express.static(__dirname + '/public'));
 server.use(logger);
 server.use(cors());
-// server.use(authorize);
 
 
-
-server.use(forecastRouter);
 server.use(indexRouter);
+server.use(forecastRouter);
 
 server.listen(port, function(){
   console.log("Now listening on port...", port);
