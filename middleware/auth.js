@@ -6,7 +6,7 @@ function authorize(request, response, next){
   if(!secretPassphrase || secretPassphrase !== mySecretPhrase){
     response.status(403).json({
       msg: "You are not authorized",
-      secretPassphrase: "its a secret"
+      // secretPassphrase: "its a secret"
     });
   } else {
     next();
