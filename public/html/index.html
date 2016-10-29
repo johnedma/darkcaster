@@ -1,11 +1,49 @@
-<html>
+<html ng-app="forecast-app">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <title>Darkcaster</title>
 </head>
 <body>
-  <p>yo</p>
+  <div class="container">
+    <div ng-controller="HomeController">
+      <input type="text" ng-model='latitude' placeholder="Latitude">
+      <input type="text" ng-model='longitude' placeholder="Longitude">
+      <button ng-click='getWeather(latitude, longitude)'>Get The Weather</button>
+
+
+
+      <div ng-show='weather.currently'>
+        <div class="row">
+          <div class="col-md-1">
+            <img ng-src="images/{{weather.currently.icon}}.png" alt="{{weather.currently.icon}}" class="img-responsive">
+
+            </div>
+          <div class="col-md-9">
+            <h3>{{weather.currently.summary}}</h3>
+          </div>
+          <div class="col-md-2">
+            <strong> {{weather.currently.time * 1000| date:"short" }}</strong>
+
+          </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <h3> Temperature: {{weather.currently.temperature + " DEGREES" | number: 0}} </h3>
+          </div>
+          <div class="col-md-3 col-md-offset-6">
+            <p>{{weather.currently.precipProbablility * 100 | number:0}} %</p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js" charset="utf-8"></script>
+<script src='js/app.js'></script>
+<script src='js/controllers/home.controller.js'></script>
+<script src='js/services/weather.service.js'></script>
+
 </body>
 </html>
