@@ -1,11 +1,85 @@
-<html>
+<html ng-app="forecast-app">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:900" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <title>Darkcaster</title>
 </head>
 <body>
-  <p>yo</p>
+  <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">SunDusky</a>
+        <a href="/"><img class="pull-left" src="images/sun2.png"></a>
+      </div>
+    </div>
+  </div>
+  <div id="wrap">
+  <div class="container">
+      <div ng-controller="HomeController">
+        <input class="text" type="text" ng-model='latitude' placeholder="Latitude">
+        <input class="text" type="text" ng-model="longitude" placeholder="Longitude">
+        <button class="text" ng-click='getWeather(latitude, longitude)'>Get the Weather</button>
+        <!-- This is the current weather view portion -->
+        <div ng-show='weather.currently'>
+          <div class="row">
+            <div class="col-md-1">
+              <img ng-src="images/{{weather.currently.icon}}.png"
+               class = 'img-responsive' alt="{{weather.currently.icon}}">
+            </div>
+            <div class="col-md-9">
+                <h3>{{ weather.currently.summary }}</h3>
+            </div>
+            <div class="col-md-2">
+              <!-- The following uses an Angular filter to format the date -->
+              <strong>{{ weather.currently.time * 1000 | date:"short"}}</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Temperature: {{weather.currently.temperature | number:0 }} &deg;F</p>
+            </div>
+            <div class="col-md-3 col-md-offset-6">
+              <p>Precipitation Probability: {{ weather.currently.precipProbability * 100 | number:0 }}%</p>
+            </div>
+          </div>
+        </div>
+        <!-- <button ng-click="log()">Log</button> -->
+      </div>
+
+      <!-- The above is for current weather only -->
+      <div ng-controller="MinutelyController">
+        <div ng-show='weather.minutely'>
+          {{ minuteLat }} {{ minuteLon }}
+          <ul>
+            <!-- <li ng-repeat="x in weather.minutely.data"> {{ x }}</li> -->
+            <li ng-repeat='minute in weather.minutely.data'>
+              Prob:{{ minute.precipProbability * 100 | number:0 }}
+              Intensity: {{ minute.precipIntensity * 100 | number:0 }}
+              Date: {{ minute.time *1000 | date:"short" }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div ng-controller="HourlyController">
+        <div ng-show='weather.hourly'>
+          {{ hourLat }} {{ hourLon }}
+          <ul>
+            <li ng-repeat='hour in weather.hourly.data'>
+              Summary: {{ weather.hourly.summary | number:0 }}
+
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- <div ng-controller="DailyController"></div> -->
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script src='js/app.js'></script>
+    <script src="js/controllers/home.controller.js"></script>
+    <script src="js/controllers/minutely.controller.js"></script>
+    <script src="js/controllers/hourly.controller.js"></script>
+    <script src="js/controllers/daily.controller.js"></script>
+    <script src="js/services/weather.service.js"></script>
 </body>
 </html>
